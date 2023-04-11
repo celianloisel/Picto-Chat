@@ -1,9 +1,8 @@
-package ClientServer;
 import java.text.ParseException;
 import java.util.ArrayList;
 
 import java.util.Scanner;
-import ClientServer.model.*;
+import model.Client;
 public class AppClient {
     private static Scanner scan = new Scanner(System.in);
 
