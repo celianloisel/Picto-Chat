@@ -54,60 +54,53 @@ public class AppClient {
         try {
             Socket client_socket = new Socket(SERVER_IP, SERVER_PORT);
             System.out.println("Connexion établie avec le serveur.");
-            
-
+    
             PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
             // Envoyer la chaîne de caractères
-            
             out.println(c.getPseudo());
-            MainChat(client_socket,c);
-            
+    
+            // Lancer un thread pour la lecture des messages du serveur
+            new Thread(() -> {
+                try {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
+                    String message;
+                    while ((message = in.readLine()) != null) {
+                        System.out.println(message);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Erreur : " + e.getMessage());
+                }
+            }).start();
+    
+            // Boucle pour les entrées utilisateur
+            afficherMenu2();
+            while (true) {
+                String choix = scan.nextLine();
+                switch (choix) {
+                    case "/private":
+                        Chat();
+                        break;
+                    default:
+                        ChatGeneral(client_socket, c, choix);
+                        break;
+                }
+                afficherMenu2();
+            }
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
     }
-
-    public static void MainChat(Socket clientSocket, Client c) throws IOException {
-        afficherMenu2();
-        while (true) {
-            try {
-                clientSocket.setSoTimeout(500); // délai d'attente de 500 millisecondes
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String message = in.readLine();
-                if (message != null) {
-                    System.out.println(message);
-                }
-            } catch (SocketTimeoutException e) {
-                // rien n'a été reçu sur le flux d'entrée, poursuivre l'exécution
-            }
-            String choix = scan.nextLine();
-            switch (choix) {
-
-                case "/private":
-                    Chat();
-                    break;
-                default:
-                    String Message = choix;
-                    System.out.println("En effet");
-                    ChatGeneral(clientSocket,c,choix);
-                    break;
-            }
-            afficherMenu2();
-        }
-    }
-
-    public static void ChatGeneral(Socket client_socket, Client c, String choix) throws IOException {
-        
+    
+    public static void ChatGeneral(Socket client_socket, Client c, String choix) {
         try {
             PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
-                
-                
-                out.println(c.getPseudo()+" : "+choix);
-                System.out.println("message envoyé");
-            } catch (IOException e) {
-                System.out.println("Erreur : " + e.getMessage());
-            }
+            out.println(c.getPseudo() + " : " + choix);
+            System.out.println("message envoyé");
+        } catch (IOException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
     }
+    
     
 
     public static void afficherMenu() {
