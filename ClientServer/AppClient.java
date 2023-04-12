@@ -18,6 +18,9 @@ public class AppClient {
                 case "1":
                     Chat();
                     break;
+                case "2":
+                    RecevoirChat();
+                    break;
                 case "q":
                     scan.close();
                     return;
@@ -29,6 +32,13 @@ public class AppClient {
         }
     }
 
+   
+
+    public static void RecevoirChat() {
+                System.out.println("-----T'as pas d'amis mec-----");
+        }
+
+       
     public static void Chat() {
         Client c = new Client();
         do {
@@ -44,7 +54,7 @@ public class AppClient {
     }
 
     public static void connectServer() {
-        final String SERVER_IP = "10.57.32.3";
+        final String SERVER_IP = "10.57.33.126";
         final int SERVER_PORT = 2222;
         try {
             Socket client_socket = new Socket(SERVER_IP, SERVER_PORT);
@@ -58,6 +68,7 @@ public class AppClient {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Chat");
+        menus.add("2- RecevoirChat");
         menus.add("q- Quitter");
         for (String s : menus) {
             System.out.println(s);
