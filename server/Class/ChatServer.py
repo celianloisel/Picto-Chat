@@ -1,5 +1,6 @@
 import socket
 import threading
+from server.Class.User import User
 
 
 class ChatServer:
@@ -7,14 +8,11 @@ class ChatServer:
 
     def __init__(self, port):
         self._port = port
+        self._client_socket = None
         self._connections_thread = threading.Thread(target=self._accept_connections)
         self._messages_thread = threading.Thread(target=self._handle_messages)
 
-    def get_port(self):
-        return self._port
-
-    def set_port(self, new_value):
-        self._port = new_value
+    # Rest of the code...
 
     def _accept_connections(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
@@ -24,18 +22,20 @@ class ChatServer:
             while True:
                 try:
                     client_socket, client_address = server_socket.accept()
-                    user_name = client_socket.recv(20)
-                    print(f"Connection established from {client_address} : {user_name.decode()}")
-
-                    # print(f"Client {client_address} disconnected")
+                    user_name = client_socket.recv(20).decode()
+                    user = User(client_address, user_name)
+                    print(f"Connection established from {client_address} : {user.get_user_name()}")
+                    self._client_socket = client_socket  # Store the client_socket as an instance variable
 
                 except Exception as e:
                     print(f"Error accepting connection: {e}")
 
     def _handle_messages(self):
         while True:
-            # Traiter les messages reçus des clients ici
-            pass
+            if self._client_socket:
+                data = self._client_socket.recv(1024)
+                print(data)
+                self._client_socket.sendall(data)
 
     def execute(self):
         self._connections_thread.start()
