@@ -1,4 +1,6 @@
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class AppClient {
             try {
                 System.out.println("Saisir pseudo:");
                 c.setPseudo(scan.nextLine());
-                connectServer();
+                connectServer(c);
                 break;
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
@@ -43,12 +45,19 @@ public class AppClient {
         } while (true);
     }
 
-    public static void connectServer() {
-        final String SERVER_IP = "10.57.32.3";
+    public static void connectServer(Client c) {
+        final String SERVER_IP = "10.57.33.126";
         final int SERVER_PORT = 2222;
         try {
             Socket client_socket = new Socket(SERVER_IP, SERVER_PORT);
             System.out.println("Connexion établie avec le serveur.");
+            
+
+            PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
+            // Envoyer la chaîne de caractères
+            
+            out.println(c.getPseudo());
+            
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
