@@ -84,7 +84,7 @@ public class AppClient {
                         ChatGeneral(client_socket, c, choix);
                         break;
                 }
-                afficherMenu2();
+                
             }
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
@@ -95,7 +95,7 @@ public class AppClient {
         try {
             PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
             out.println(c.getPseudo() + " : " + choix);
-            System.out.println("message envoyé");
+            
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
