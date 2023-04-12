@@ -14,14 +14,21 @@ class ChatServer:
         print(f"Server is listening on port {self._port}")
         self._connections = []
         self._lock = threading.Lock()
+        self._usernames = set()  # Utiliser un ensemble pour stocker les pseudos
 
     def _handle_client(self, client_socket, client_address):
         try:
             user_name = client_socket.recv(20).decode()
+            if user_name in self._usernames:  # Vérifier si le pseudo est déjà utilisé
+                client_socket.sendall("Ce pseudo est déjà pris. Veuillez en choisir un autre.".encode())
+                client_socket.close()
+                return
+
             user = User(client_address, user_name)
             print(f"Connection established from {client_address} : {user.get_user_name()}")
             with self._lock:
                 self._connections.append(client_socket)
+                self._usernames.add(user_name)  # Ajouter le pseudo à l'ensemble
         except Exception as e:
             print(f"Error accepting connection: {e}")
 
