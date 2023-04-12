@@ -24,11 +24,10 @@ class ChatServer:
             while True:
                 try:
                     client_socket, client_address = server_socket.accept()
-                    print(f"Connection established from {client_address}")
+                    user_name = client_socket.recv(20)
+                    print(f"Connection established from {client_address} : {user_name.decode()}")
 
-                    # Traiter la connexion client ici
-
-                    print(f"Client {client_address} disconnected")
+                    # print(f"Client {client_address} disconnected")
 
                 except Exception as e:
                     print(f"Error accepting connection: {e}")
