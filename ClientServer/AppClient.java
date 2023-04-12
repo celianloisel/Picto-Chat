@@ -1,7 +1,10 @@
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -57,17 +60,70 @@ public class AppClient {
             // Envoyer la chaîne de caractères
             
             out.println(c.getPseudo());
+            MainChat(client_socket,c);
             
         } catch (IOException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
     }
 
+    public static void MainChat(Socket clientSocket, Client c) throws IOException {
+        afficherMenu2();
+        while (true) {
+            try {
+                clientSocket.setSoTimeout(500); // délai d'attente de 500 millisecondes
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                String message = in.readLine();
+                if (message != null) {
+                    System.out.println(message);
+                }
+            } catch (SocketTimeoutException e) {
+                // rien n'a été reçu sur le flux d'entrée, poursuivre l'exécution
+            }
+            String choix = scan.nextLine();
+            switch (choix) {
+
+                case "/private":
+                    Chat();
+                    break;
+                default:
+                    String Message = choix;
+                    System.out.println("En effet");
+                    ChatGeneral(clientSocket,c,choix);
+                    break;
+            }
+            afficherMenu2();
+        }
+    }
+
+    public static void ChatGeneral(Socket client_socket, Client c, String choix) throws IOException {
+        
+        try {
+            PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
+                
+                
+                out.println(c.getPseudo()+" : "+choix);
+                System.out.println("message envoyé");
+            } catch (IOException e) {
+                System.out.println("Erreur : " + e.getMessage());
+            }
+    }
+    
+
     public static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Chat");
         menus.add("q- Quitter");
+        for (String s : menus) {
+            System.out.println(s);
+        }
+    }
+    public static void afficherMenu2() {
+        ArrayList<String> menus = new ArrayList<>();
+        menus.add(" ");
+        menus.add("Vous pouvez écrire ci-dessous dans le chat général ou faire /private pour envoyer un message privé");
+        menus.add("");
         for (String s : menus) {
             System.out.println(s);
         }
