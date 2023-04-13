@@ -7,9 +7,11 @@ class ClientHandler(threading.Thread):
         self.client_socket = client_socket
         self.client_address = client_address
         self.server = server
+        
 
     def run(self):
-        username = self.client_socket.recv(1024).decode('utf-8')
+        username = self.client_socket.recv(1024).decode('utf-8').strip()
+        self.username = username
         print(f"Nom d'utilisateur reçu : {username}")
 
         # Vérifier si le nom d'utilisateur est déjà utilisé
@@ -27,8 +29,16 @@ class ClientHandler(threading.Thread):
             try:
                 # Recevoir les données du client
                 data = self.client_socket.recv(1024).decode('utf-8')
-                print(data)
-                if data:
+                if "/mp" in data:
+                    parts = data.split(" ", 3)
+                    
+                    print (parts)
+                    dest = parts[0]
+                    pseudo = parts[2]
+                    mp = parts[3]
+                        
+                    self.server.private_message(pseudo,mp,dest)
+                elif data:
                     # Diffuser le message à tous les clients connectés
                     self.server.broadcast(data)
                 else:
@@ -46,3 +56,16 @@ class ClientHandler(threading.Thread):
             return True
         else:
             return False
+        
+    def send_message_to_user(self, username, message):
+        with self._lock:
+            for connection in self._connections:
+                try:
+                    user_name = connection.recv(20).decode()
+                    if user_name == username:
+                        connection.sendall(message.encode())
+                        break
+                except Exception as e:
+                    print(f"Error sending message to user {username}: {e}")
+
+    

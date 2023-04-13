@@ -40,6 +40,19 @@ class ChatServer:
                 print(f"Erreur lors de l'envoi du message au client {client.client_address}: {e}")
                 self.remove_client(client)
 
+    def private_message(self, username, content, destinataire):
+        print(username)
+        for client in self.clients:
+            try:
+                print(client.username)
+                
+                if client.username == username:
+                    message = "(mp) "+ destinataire + content
+                    client.client_socket.sendall(message.encode('utf-8'))
+            except Exception as e:
+                print(f"Erreur lors de l'envoi du message privé au client {client.client_address}: {e}")
+                self.remove_client(client)
+
     def remove_client(self, client):
         if client in self.clients:
             self.clients.remove(client)

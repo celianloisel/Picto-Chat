@@ -15,4 +15,8 @@ public class MessageSender {
         // Envoyer le message au serveur
         out.println(username + ": " + message);
     }
+
+    public void privateMessage(String message){
+        out.println(username + ": " + message);
+    }
 }
