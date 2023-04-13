@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String host = "192.168.1.22"; // Adresse IP du serveur
+        String host = "192.168.1.106"; // Adresse IP du serveur
         int port = 2222; // Port du serveur
 
         ChatClient chatClient = new ChatClient(host, port);

@@ -74,8 +74,15 @@ public class InterfaceGraphique {
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String message = textField.getText();
-                MessageSender messageSender = new MessageSender(pseudo, out);
+                if (message.contains("/mp")) {
+                    MessageSender messageSender = new MessageSender(pseudo, out);
+                    messageSender.privateMessage(message);
+                }
+                else{
+                    MessageSender messageSender = new MessageSender(pseudo, out);
                 messageSender.sendMessage(message);
+                }
+                
             }
         });
 
