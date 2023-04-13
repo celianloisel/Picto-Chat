@@ -1,0 +1,34 @@
+package src;
+
+import src.Class.ChatClient;
+import src.Class.MessageSender;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        String host = "192.168.1.22"; // Adresse IP du serveur
+        int port = 2222; // Port du serveur
+
+        ChatClient chatClient = new ChatClient(host, port);
+        chatClient.connect();
+
+        // Lancer le client dans un thread séparé
+        Thread clientThread = new Thread(chatClient);
+        clientThread.start();
+
+        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        String message;
+        while (true) {
+            message = consoleReader.readLine();
+            if (message.equalsIgnoreCase("exit")) {
+                break;
+            }
+            // Utiliser la classe MessageSender pour envoyer le message
+            MessageSender messageSender = new MessageSender(chatClient.getUsername(), chatClient.getOut());
+            messageSender.sendMessage(message);
+        }
+    }
+}
