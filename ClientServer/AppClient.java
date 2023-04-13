@@ -14,7 +14,7 @@ import model.Client;
 public class AppClient {
     private static Scanner scan = new Scanner(System.in);
 
-    public static void main(String[] args) throws Exception {
+    public  void main(String[] args) throws Exception {
         afficherMenu();
         while (true) {
             String choix = scan.nextLine();
@@ -34,7 +34,7 @@ public class AppClient {
         }
     }
 
-    public static void Chat() {
+    public void Chat() {
         Client c = new Client();
         do {
             try {
@@ -48,7 +48,7 @@ public class AppClient {
         } while (true);
     }
 
-    public static void connectServer(Client c) {
+    public void connectServer(Client c) {
         final String SERVER_IP = "10.57.33.126";
         final int SERVER_PORT = 2222;
         try {
@@ -91,7 +91,7 @@ public class AppClient {
         }
     }
     
-    public static void ChatGeneral(Socket client_socket, Client c, String choix) {
+    public  void ChatGeneral(Socket client_socket, Client c, String choix) {
         try {
             PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
             out.println(c.getPseudo() + " : " + choix);
@@ -103,7 +103,7 @@ public class AppClient {
     
     
 
-    public static void afficherMenu() {
+    public void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Chat");
@@ -112,7 +112,7 @@ public class AppClient {
             System.out.println(s);
         }
     }
-    public static void afficherMenu2() {
+    public void afficherMenu2() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add(" ");
         menus.add("Vous pouvez écrire ci-dessous dans le chat général ou faire /private pour envoyer un message privé");
