@@ -38,6 +38,7 @@ public class AppClient {
         Client c = new Client();
         do {
             try {
+                
                 System.out.println("Saisir pseudo:");
                 c.setPseudo(scan.nextLine());
                 connectServer(c);
@@ -54,10 +55,24 @@ public class AppClient {
         try {
             Socket client_socket = new Socket(SERVER_IP, SERVER_PORT);
             System.out.println("Connexion établie avec le serveur.");
+            try {
+                byte[] response = new byte[1];
+                client_socket.getInputStream().read(response); // Recevoir un octet
+                if (response[0] == 0) {
+                    System.out.println("Le nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.");
+                    client_socket.close();
+                    Chat();
+                } else {
+                    System.out.println("Le nom d'utilisateur est valide.");
+                    PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
+                    out.println(c.getPseudo());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     
-            PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
-            // Envoyer la chaîne de caractères
-            out.println(c.getPseudo());
+            
+           
     
             // Lancer un thread pour la lecture des messages du serveur
             new Thread(() -> {

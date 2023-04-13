@@ -20,7 +20,7 @@ class ChatServer:
         try:
             user_name = client_socket.recv(20).decode()
             if user_name in self._usernames:  # Vérifier si le pseudo est déjà utilisé
-                client_socket.sendall("Ce pseudo est déjà pris. Veuillez en choisir un autre.".encode())
+                client_socket.sendall(False.to_bytes(1, 'big')) 
                 client_socket.close()
                 return
 
