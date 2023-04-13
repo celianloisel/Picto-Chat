@@ -50,7 +50,7 @@ public class AppClient {
     }
 
     public static void connectServer(Client c) {
-        final String SERVER_IP = "192.168.1.22";
+        final String SERVER_IP = "192.168.1.106";
         final int SERVER_PORT = 2222;
         try {
             Socket client_socket = new Socket(SERVER_IP, SERVER_PORT);

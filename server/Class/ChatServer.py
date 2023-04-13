@@ -1,6 +1,6 @@
 import socket
 import threading
-from server.Class.User import User
+from Class.User import User
 
 
 class ChatServer:
@@ -9,7 +9,7 @@ class ChatServer:
     def __init__(self, port):
         self._port = port
         self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._server_socket.bind(('10.57.33.126', int(self._port)))
+        self._server_socket.bind(('192.168.1.106', int(self._port)))
         self._server_socket.listen(ChatServer.MAX_CONNECTIONS)
         print(f"Server is listening on port {self._port}")
         self._connections = []
