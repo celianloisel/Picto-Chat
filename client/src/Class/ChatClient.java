@@ -21,7 +21,7 @@ public class ChatClient implements Runnable {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public PrintWriter getOut() {
@@ -30,6 +30,8 @@ public class ChatClient implements Runnable {
 
 
     public void connect() throws IOException {
+        InterfaceGraphique interfaceGraphique = new InterfaceGraphique();
+
         // Connexion au serveur
         socket = new Socket(host, port);
         System.out.println("Connecté au serveur : " + host + ":" + port);
@@ -38,10 +40,15 @@ public class ChatClient implements Runnable {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        // Lire le nom d'utilisateur à partir de la console
-        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Veuillez entrer votre nom d'utilisateur : ");
-        username = consoleReader.readLine();
+        while (interfaceGraphique.getPseudo() == null) {
+            try {
+                Thread.sleep(1000); // Attendre 1 seconde
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        username = interfaceGraphique.getPseudo();
 
         // Envoyer le nom d'utilisateur au serveur
         out.println(username);
@@ -49,18 +56,15 @@ public class ChatClient implements Runnable {
         // Attendre la réponse du serveur
         String response = in.readLine();
         if ("OK".equals(response)) {
-            System.out.println("Bienvenue, " + username + " !");
+            interfaceGraphique.NextFrame(username, out, in);
+            interfaceGraphique.ajouterPersonne(username);
         } else {
             System.out.println("Le nom d'utilisateur " + username + " est déjà utilisé. Veuillez en choisir un autre.");
             // Fermer la connexion au serveur
             socket.close();
+            interfaceGraphique.closeFrame();
             connect();
         }
-    }
-
-    public void sendMessage(String message) {
-        // Envoyer le message au serveur
-        out.println(username + ": " + message);
     }
 
     public void receiveMessage() throws IOException {

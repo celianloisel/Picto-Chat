@@ -18,17 +18,5 @@ public class Main {
         // Lancer le client dans un thread séparé
         Thread clientThread = new Thread(chatClient);
         clientThread.start();
-
-        BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
-        String message;
-        while (true) {
-            message = consoleReader.readLine();
-            if (message.equalsIgnoreCase("exit")) {
-                break;
-            }
-            // Utiliser la classe MessageSender pour envoyer le message
-            MessageSender messageSender = new MessageSender(chatClient.getUsername(), chatClient.getOut());
-            messageSender.sendMessage(message);
-        }
     }
 }
