@@ -14,7 +14,7 @@ import model.Client;
 public class AppClient {
     private static Scanner scan = new Scanner(System.in);
 
-    public  void main(String[] args) throws Exception {
+    public static  void main(String[] args) throws Exception {
         afficherMenu();
         while (true) {
             String choix = scan.nextLine();
@@ -34,7 +34,7 @@ public class AppClient {
         }
     }
 
-    public void Chat() {
+    public static void Chat() {
         Client c = new Client();
         do {
             try {
@@ -48,16 +48,18 @@ public class AppClient {
         } while (true);
     }
 
-    public void connectServer(Client c) {
-        final String SERVER_IP = "10.57.33.126";
+    public static void connectServer(Client c) {
+        final String SERVER_IP = "192.168.1.106";
         final int SERVER_PORT = 2222;
         try {
             Socket client_socket = new Socket(SERVER_IP, SERVER_PORT);
             System.out.println("Connexion établie avec le serveur.");
+            
     
             PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
             // Envoyer la chaîne de caractères
             out.println(c.getPseudo());
+            
     
             // Lancer un thread pour la lecture des messages du serveur
             new Thread(() -> {
@@ -91,7 +93,7 @@ public class AppClient {
         }
     }
     
-    public  void ChatGeneral(Socket client_socket, Client c, String choix) {
+    public static  void ChatGeneral(Socket client_socket, Client c, String choix) {
         try {
             PrintWriter out = new PrintWriter(client_socket.getOutputStream(), true);
             out.println(c.getPseudo() + " : " + choix);
@@ -103,7 +105,7 @@ public class AppClient {
     
     
 
-    public void afficherMenu() {
+    public static void afficherMenu() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add("-- MENU --");
         menus.add("1- Chat");
@@ -112,7 +114,7 @@ public class AppClient {
             System.out.println(s);
         }
     }
-    public void afficherMenu2() {
+    public static void afficherMenu2() {
         ArrayList<String> menus = new ArrayList<>();
         menus.add(" ");
         menus.add("Vous pouvez écrire ci-dessous dans le chat général ou faire /private pour envoyer un message privé");
