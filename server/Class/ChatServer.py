@@ -89,6 +89,8 @@ class ChatServer:
             self.clients.remove(client)
             client.client_socket.close()
             print(f"Le client {client.client_address} s'est déconnecté.")
+            with open('logs.txt', "a") as fichier:
+                fichier.write(f"Nouvelle connexion de {client.client_address}\n")
 
     def stop(self):
         for client in self.clients:
