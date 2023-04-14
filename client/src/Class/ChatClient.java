@@ -1,5 +1,7 @@
 package src.Class;
 
+import client.src.Class.InterfaceGraphique;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,7 +32,7 @@ public class ChatClient implements Runnable {
 
 
     public void connect() throws IOException {
-        InterfaceGraphique interfaceGraphique = new InterfaceGraphique();
+        client.src.Class.InterfaceGraphique interfaceGraphique = new InterfaceGraphique();
 
         // Connexion au serveur
         socket = new Socket(host, port);

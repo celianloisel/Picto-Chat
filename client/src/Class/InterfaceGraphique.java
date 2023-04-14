@@ -1,5 +1,7 @@
 package client.src.Class;
 
+import src.Class.MessageSender;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
