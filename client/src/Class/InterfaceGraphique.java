@@ -41,9 +41,9 @@ public class InterfaceGraphique {
 
     public InterfaceGraphique() {
         // Créer la fenêtre principale
-        frame = new JFrame("Marko le gay");
+        frame = new JFrame("Picto Chat");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+        frame.setSize(600, 1000);
 
         // Créer le panneau pour choisir le pseudo
         pseudoPanel = new JPanel();
