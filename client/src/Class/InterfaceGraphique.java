@@ -1,4 +1,4 @@
-package src.Class;
+package client.src.Class;
 
 import javax.swing.*;
 import java.awt.*;
@@ -130,7 +130,7 @@ public class InterfaceGraphique {
         // Afficher la fenêtre
         frame.setVisible(true);
 
-        textArea.append("Tu viens de se connecter\n");
+        textArea.append("Tu viens de te connecter\n");
 
         while (true) {
             String message = in.readLine();
