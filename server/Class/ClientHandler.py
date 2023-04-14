@@ -30,12 +30,12 @@ class ClientHandler(threading.Thread):
                 # Recevoir les données du client
                 data = self.client_socket.recv(1024).decode('utf-8')
                 if "/mp" in data:
-                    parts = data.split(" ", 3)
+                    parts = data.split(" ", 4)
                     
                     print (parts)
                     dest = parts[0]
-                    pseudo = parts[2]
-                    mp = parts[3]
+                    pseudo = parts[3]
+                    mp = parts[4]
                         
                     self.server.private_message(pseudo,mp,dest)
                 elif data:
