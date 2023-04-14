@@ -1,5 +1,6 @@
 import socket
 from Class.ClientHandler import ClientHandler
+import os
 
 
 class ChatServer:
@@ -16,7 +17,11 @@ class ChatServer:
     def set_username(self, new_value):
         self._usernames = new_value
 
+
     def start(self):
+        if not os.path.exists('../logs.csv'):
+            open('logs.txt', 'a').close()
+
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server_socket.bind((self.host, self.port))
@@ -26,6 +31,8 @@ class ChatServer:
         while True:
             client_socket, client_address = self.server_socket.accept()
             print(f"Nouvelle connexion de {client_address}")
+            with open('logs.txt', "a") as fichier:
+                fichier.write(f"Nouvelle connexion de {client_address}\n")
             client_handler = ClientHandler(client_socket, client_address, self)
             client_handler.start()
             self.clients.append(client_handler)

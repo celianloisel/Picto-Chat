@@ -7,7 +7,6 @@ class ClientHandler(threading.Thread):
         self.client_socket = client_socket
         self.client_address = client_address
         self.server = server
-        
 
     def run(self):
         username = self.client_socket.recv(1024).decode('utf-8').strip()
@@ -35,17 +34,17 @@ class ClientHandler(threading.Thread):
                     dest = parts[0]
                     pseudo = parts[3]
                     mp = parts[4]
-                    self.server.private_message(pseudo,mp,dest)
-                    
+                    self.server.private_message(pseudo, mp, dest)
+
                 elif "/group" in data:
                     parts = data.split(" ")
                     pseudo = parts[0]
-                    self.server.create_group_message(pseudo,data)
+                    self.server.create_group_message(pseudo, data)
 
                 elif data:
                     # Diffuser le message à tous les clients connectés
                     self.server.broadcast(data)
-                
+
                 else:
                     # Si les données sont vides, le client s'est déconnecté
                     self.server.get_username().remove(username)
@@ -61,7 +60,7 @@ class ClientHandler(threading.Thread):
             return True
         else:
             return False
-        
+
     def send_message_to_user(self, username, message):
         with self._lock:
             for connection in self._connections:
@@ -72,5 +71,3 @@ class ClientHandler(threading.Thread):
                         break
                 except Exception as e:
                     print(f"Error sending message to user {username}: {e}")
-
-    
