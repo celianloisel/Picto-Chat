@@ -30,17 +30,22 @@ class ClientHandler(threading.Thread):
                 # Recevoir les données du client
                 data = self.client_socket.recv(1024).decode('utf-8')
                 if "/mp" in data:
-                    parts = data.split(" ", 3)
-                    
-                    print (parts)
+                    parts = data.split(" ", 4)
+                    print(parts)
                     dest = parts[0]
-                    pseudo = parts[2]
-                    mp = parts[3]
-                        
+                    pseudo = parts[3]
+                    mp = parts[4]
                     self.server.private_message(pseudo,mp,dest)
+                    
+                elif "/group" in data:
+                    parts = data.split(" ")
+                    pseudo = parts[0]
+                    self.server.create_group_message(pseudo,data)
+
                 elif data:
                     # Diffuser le message à tous les clients connectés
                     self.server.broadcast(data)
+                
                 else:
                     # Si les données sont vides, le client s'est déconnecté
                     self.server.get_username().remove(username)

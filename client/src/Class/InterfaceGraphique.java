@@ -78,9 +78,13 @@ public class InterfaceGraphique {
                     MessageSender messageSender = new MessageSender(pseudo, out);
                     messageSender.privateMessage(message);
                 }
+                else if(message.contains("/group")) {
+                    MessageSender messageSender = new MessageSender(pseudo, out);
+                    messageSender.groupMessage(message);
+                }
                 else{
                     MessageSender messageSender = new MessageSender(pseudo, out);
-                messageSender.sendMessage(message);
+                    messageSender.sendMessage(message);
                 }
                 
             }
