@@ -41,17 +41,41 @@ class ChatServer:
                 self.remove_client(client)
 
     def private_message(self, username, content, destinataire):
-        print(username)
         for client in self.clients:
             try:
-                print(client.username)
-                
                 if client.username == username:
-                    message = "(mp) "+ destinataire + content
+                    message = "(MP) "+ destinataire +" : "+ content
                     client.client_socket.sendall(message.encode('utf-8'))
             except Exception as e:
                 print(f"Erreur lors de l'envoi du message privé au client {client.client_address}: {e}")
-                self.remove_client(client)
+               
+
+    def create_group_message(self, sender, msg):
+        print(msg)
+        parts = msg.split(" ")
+        clients_to_add = []
+        print(parts)
+        for client in self.clients:
+            try:
+                if client.username in parts:
+                    clients_to_add.append(client.username)
+            except Exception as e:
+                print(f"Erreur lors de la création de groupe : {client.client_address}: {e}")
+        # Faire quelque chose avec la liste clients_to_add
+        client_names = ",".join(clients_to_add)
+        real_c = client_names.split(",")
+        print (real_c)
+        print (clients_to_add)
+        for client in self.clients:
+            print (client.username+"    test")
+            if client.username in real_c:
+                try:
+                    message = "(Group) "+ sender +" a créer un groupe contanant : "+ client_names
+                    client.client_socket.sendall(message.encode('utf-8'))
+                except Exception as e:
+                    print(f"Erreur lors de la création de groupe : {client.client_address}: {e}")
+            
+
 
     def remove_client(self, client):
         if client in self.clients:

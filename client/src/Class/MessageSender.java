@@ -13,10 +13,14 @@ public class MessageSender {
 
     public void sendMessage(String message) {
         // Envoyer le message au serveur
-        out.println(username + ": " + message);
+        out.println(username + " : " + message);
     }
 
     public void privateMessage(String message){
-        out.println(username + ": " + message);
+        out.println(username + " : " + message);
+    }
+
+    public void groupMessage(String message){
+        out.println(username + " : " + message + " : ");
     }
 }
