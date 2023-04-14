@@ -2,6 +2,7 @@ import threading
 
 
 class ClientHandler(threading.Thread):
+    
     def __init__(self, client_socket, client_address, server):
         threading.Thread.__init__(self)
         self.client_socket = client_socket
