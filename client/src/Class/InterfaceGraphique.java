@@ -18,6 +18,8 @@ public class InterfaceGraphique {
     private JTextField pseudoTextField;
     private JButton choisirPseudoButton;
     private JTextField textField;
+    private JLabel connexionLabel;
+
     private JTextArea textArea;
     private JList<String> personList;
     private DefaultListModel<String> personListModel;
@@ -36,6 +38,7 @@ public class InterfaceGraphique {
         frame.remove(pseudoPanel);
         frame.revalidate();
         frame.repaint();
+
         initChatInterface(pseudo, out, in);
     }
 
@@ -126,6 +129,8 @@ public class InterfaceGraphique {
 
         // Afficher la fenêtre
         frame.setVisible(true);
+
+        textArea.append("Tu viens de se connecter\n");
 
         while (true) {
             String message = in.readLine();
