@@ -41,7 +41,7 @@ public class InterfaceGraphique {
 
     public InterfaceGraphique() {
         // Créer la fenêtre principale
-        frame = new JFrame("Interface Graphique");
+        frame = new JFrame("Marko le gay");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
 
