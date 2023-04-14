@@ -91,6 +91,7 @@ public class InterfaceGraphique {
                     MessageSender messageSender = new MessageSender(pseudo, out);
                     messageSender.sendMessage(message);
                 }
+                textField.setText("");
                 
             }
         });
